@@ -25,11 +25,7 @@ class StackFrontier():
             node = self.frontier[-1]
             self.frontier = self.frontier[:-1]
             return node
-    
-    def print(self):
-        if not self.empty():
-            for item in self.frontier:
-                print(item)
+
 
 
 class QueueFrontier(StackFrontier):

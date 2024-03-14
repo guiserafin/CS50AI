@@ -94,25 +94,40 @@ def shortest_path(source, target):
     # BFS - Queue - FIFO
     frontier = QueueFrontier()
 
-    visited_stars = set()
+    explored_nodes = set()
 
-    colegas = neighbors_for_person(source)
+    start = Node(source, None, None)
 
-    for colega in colegas:
-        # if not frontier.contains_state(colega[1]):
-        frontier.add(colega[1])
+    frontier.add(start)
+
+    while True:
+
+        if (frontier.empty()):
+            return None
+
+        node = frontier.remove()
+
+        explored_nodes.add(node)
+
+        neighbors = neighbors_for_person(node.state)
+
+        for movie, actor in neighbors:
+            if actor not in explored_nodes and not frontier.contains_state(actor):
+
+                child = Node(actor, node, movie)
+
+                if (child.state == target):
+                    sol = []
+
+                    while child.parent is not None:
+                        sol.append((child.action, child.state))
+                        child = child.parent
+
+                    sol.reverse()
+                    return sol
+
+                frontier.add(child)
     
-    frontier.print()
-    
-    
-    # no_atual = frontier.remove()
-
-    # if no_atual == target:
-    #     return
-
-    # TODO
-    # raise NotImplementedError
-
 
 def person_id_for_name(name):
     """
